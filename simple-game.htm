@@ -12,17 +12,23 @@
       margin: 0;
     }
 
+
     canvas {
-      border: 1px solid black;
+      border: 2px solid black;
     }
   </style>
+  <var>rulesdone: false</var>
 </head>
 
 <body>
+  if{
+
+  }
   <canvas id="gameCanvas" width="800" height="600"></canvas>
   <script>
     const canvas = document.getElementById('gameCanvas');
     const context = canvas.getContext('2d');
+
 
     let square = {
       x: 50,
@@ -58,7 +64,7 @@
       context.fillText(`The Rules are simple:`, 400, 100);
       context.fillStyle = '#000000';
       context.font = '20px Arial';
-      context.fillText(`The therapist uses 'J, K, L, and ;'. The freind uses 'A, S, D, and F'. When the coin shows up, race to get the coin.`, 400, 200)
+      context.fillText(`The therapist uses 'J, K, L, and ;'. The freind uses 'A, S, D, and F'. When the coin shows up, race to get the coin!`, 400, 200)
       context.fillStyle = '#000000';
       context.font = '20px Arial';
       context.fillText(`To move the square, the following aplies;`, 400, 250)
@@ -129,7 +135,6 @@
       triangle.x += triangle.dx;
       triangle.y += triangle.dy;
     }
-
     function spawnCoin() {
       coin.x = Math.random() * (canvas.width - 2 * coin.radius) + coin.radius;
       coin.y = Math.random() * (canvas.height - 2 * coin.radius) + coin.radius;
@@ -170,16 +175,21 @@
     }
 
     function update() {
-      moveSquare();
-      moveTriangle();
-      updateScores();
-      draw();
-      requestAnimationFrame(update);
+      if (rulesdone == 1) {
+        rules();
+      } else if (rulesdone != 1) {
+        moveSquare();
+        moveTriangle();
+        updateScores();
+        draw();
+        requestAnimationFrame(update);
+      }
     }
 
     function handleKeyDown(event) {
       const step = 10;
       switch (event.key) {
+        case 'space':
         case 'ArrowUp':
           square.dy = -step;
           break;
