@@ -1,217 +1,241 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Simple Game</title>
-    <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
 
-      canvas {
-        border: 1px solid black;
-      }
-    </style>
-  </head>
+<head>
+  <title>Typing Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-  <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <script>
-      const canvas = document.getElementById('gameCanvas');
-      const context = canvas.getContext('2d');
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
 
-      let square = {
-        x: 50,
-        y: 50,
-        size: 100,
-        color: '#FF0000',
-        dx: 0,
-        dy: 0,
-        score: 0
-      };
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const context = canvas.getContext('2d');
 
-      let triangle = {
-        x: 200,
-        y: 200,
-        size: 100,
-        color: '#0000FF',
-        dx: 0,
-        dy: 0,
-        score: 0
-      };
+    let square = {
+      x: 50,
+      y: 50,
+      size: 100,
+      color: '#FF0000',
+      dx: 0,
+      dy: 0,
+      score: 0
+    };
 
-      let coin = {
-        x: 0,
-        y: 0,
-        radius: 20,
-        color: '#FFD700',
-        active: false
-      };
+    let triangle = {
+      x: 200,
+      y: 200,
+      size: 100,
+      color: '#0000FF',
+      dx: 0,
+      dy: 0,
+      score: 0
+    };
 
-      function rules() {
-        context.fillStyle = '#000000';
-        context.font = '150px Arial';
-        context.fillText(`The Rules are simple:`, 400, 100);
-        context.fillStyle = '#000000';
-        context.font = '20px Arial';
-      }
+    let coin = {
+      x: 0,
+      y: 0,
+      radius: 20,
+      color: '#FFD700',
+      active: false
+    };
 
-      function drawSquare() {
-        context.fillStyle = square.color;
-        context.fillRect(square.x, square.y, square.size, square.size);
-      }
+    function rules() {
+      context.fillStyle = '#000000';
+      context.font = '150px Arial';
+      context.fillText(`The Rules are simple:`, 400, 100);
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`The therapist uses 'J, K, L, and ;'. The freind uses 'A, S, D, and F'. When the coin shows up, race to get the coin.`, 400, 200)
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`To move the square, the following aplies;`, 400, 250)
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`Left is 'A', right is 'F', up is 'D', and down is 'S'.`, 400, 300)
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`To move the triangle, the following aplies;`, 400, 350)
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`Left is 'J', right is 'K', up is 'L', and down is ';'.`, 400, 400)
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`Press space to dismiss.`, 400, 300)
+      // need to adjust keybinds accordingly...
+      //program in 'space to dismiss'
+    }
 
-      function drawTriangle() {
-        context.fillStyle = triangle.color;
+    function drawSquare() {
+      context.fillStyle = square.color;
+      context.fillRect(square.x, square.y, square.size, square.size);
+    }
+
+    function drawTriangle() {
+      context.fillStyle = triangle.color;
+      context.beginPath();
+      context.moveTo(triangle.x, triangle.y);
+      context.lineTo(triangle.x - triangle.size / 2, triangle.y + triangle.size);
+      context.lineTo(triangle.x + triangle.size / 2, triangle.y + triangle.size);
+      context.closePath();
+      context.fill();
+    }
+
+    function drawCoin() {
+      if (coin.active) {
+        context.fillStyle = coin.color;
         context.beginPath();
-        context.moveTo(triangle.x, triangle.y);
-        context.lineTo(triangle.x - triangle.size / 2, triangle.y + triangle.size);
-        context.lineTo(triangle.x + triangle.size / 2, triangle.y + triangle.size);
-        context.closePath();
+        context.arc(coin.x, coin.y, coin.radius, 0, Math.PI * 2);
         context.fill();
-      }
-
-      function drawCoin() {
-        if (coin.active) {
-          context.fillStyle = coin.color;
-          context.beginPath();
-          context.arc(coin.x, coin.y, coin.radius, 0, Math.PI * 2);
-          context.fill();
-          context.fillStyle = '#000000';
-          context.font = '20px Arial';
-          context.fillText(`Get the Coin!!`, 10, 90);
-        }
-      }
-
-      function drawScores() {
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`Square: ${square.score}`, 10, 20);
-        context.fillText(`Triangle: ${triangle.score}`, 10, 50);
+        context.fillText(`Get the Coin!!`, 10, 90);
       }
+    }
 
-      function draw() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        drawSquare();
-        drawTriangle();
-        drawCoin();
-        drawScores();
+    function drawScores() {
+      context.fillStyle = '#000000';
+      context.font = '20px Arial';
+      context.fillText(`Square: ${square.score}`, 10, 20);
+      context.fillText(`Triangle: ${triangle.score}`, 10, 50);
+    }
+
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawSquare();
+      drawTriangle();
+      drawCoin();
+      drawScores();
+    }
+
+    function moveSquare() {
+      square.x += square.dx;
+      square.y += square.dy;
+    }
+
+    function moveTriangle() {
+      triangle.x += triangle.dx;
+      triangle.y += triangle.dy;
+    }
+
+    function spawnCoin() {
+      coin.x = Math.random() * (canvas.width - 2 * coin.radius) + coin.radius;
+      coin.y = Math.random() * (canvas.height - 2 * coin.radius) + coin.radius;
+      coin.active = true;
+    }
+
+    function checkCollision(shape, coin) {
+      const dx = shape.x - coin.x;
+      const dy = shape.y - coin.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (shape.size) { // For square and triangle
+        return distance < shape.size / 2 + coin.radius;
       }
+    }
 
-      function moveSquare() {
-        square.x += square.dx;
-        square.y += square.dy;
-      }
-
-      function moveTriangle() {
-        triangle.x += triangle.dx;
-        triangle.y += triangle.dy;
-      }
-
-      function spawnCoin() {
-        coin.x = Math.random() * (canvas.width - 2 * coin.radius) + coin.radius;
-        coin.y = Math.random() * (canvas.height - 2 * coin.radius) + coin.radius;
-        coin.active = true;
-      }
-
-      function checkCollision(shape, coin) {
-        const dx = shape.x - coin.x;
-        const dy = shape.y - coin.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (shape.size) {
-          return distance < shape.size / 2 + coin.radius;
+    function updateScores() {
+      if (coin.active) {
+        if (checkCollision(square, coin)) {
+          square.score += 10;
+          coin.active = false;
+          setTimeout(spawnCoin, 2000); // Spawn a new coin after 2 seconds
+        } else if (checkCollision(triangle, coin)) {
+          triangle.score += 10;
+          coin.active = false;
+          setTimeout(spawnCoin, 2000); // Spawn a new coin after 2 seconds
         }
       }
-
-      function updateScores() {
-        if (coin.active) {
-          if (checkCollision(square, coin)) {
-            square.score += 10;
-            coin.active = false;
-            setTimeout(spawnCoin, 2000);
-          } else if (checkCollision(triangle, coin)) {
-            triangle.score += 10;
-            coin.active = false;
-            setTimeout(spawnCoin, 2000);
-          }
-        }
-        if (triangle.score == 100) {
-          context.fillStyle = '#000000';
-          context.font = '100px Arial';
-          context.fillText(`Triangle Wins!`, 400, 300);
-        } else if (square.score == 100) {
-          context.fillStyle = '#000000';
-          context.font = '100px Arial';
-          context.fillText(`Square Wins!`, 400, 300);
-        }
+      if (triangle.score == 100) {
+        context.fillStyle = '#000000';
+        context.font = '100px Arial';
+        context.fillText(`Triangle Wins!`, 400, 300);
+      } else if (square.score == 100) {
+        context.fillStyle = '#000000';
+        context.font = '100px Arial';
+        context.fillText(`Square Wins!`, 400, 300);
       }
+    }
 
-      function update() {
-        moveSquare();
-        moveTriangle();
-        updateScores();
-        draw();
-        requestAnimationFrame(update);
-      }
+    function update() {
+      moveSquare();
+      moveTriangle();
+      updateScores();
+      draw();
+      requestAnimationFrame(update);
+    }
 
-      function handleKeyDown(event) {
-        const step = 10;
-        switch (event.key) {
-          case 'ArrowUp':
-            square.dy = -step;
-            break;
-          case 'ArrowDown':
-            square.dy = step;
-            break;
-          case 'ArrowLeft':
-            square.dx = -step;
-            break;
-          case 'ArrowRight':
-            square.dx = step;
-            break;
-          case 'w':
-            triangle.dy = -step;
-            break;
-          case 's':
-            triangle.dy = step;
-            break;
-          case 'a':
-            triangle.dx = -step;
-            break;
-          case 'd':
-            triangle.dx = step;
-            break;
-        }
+    function handleKeyDown(event) {
+      const step = 10;
+      switch (event.key) {
+        case 'ArrowUp':
+          square.dy = -step;
+          break;
+        case 'ArrowDown':
+          square.dy = step;
+          break;
+        case 'ArrowLeft':
+          square.dx = -step;
+          break;
+        case 'ArrowRight':
+          square.dx = step;
+          break;
+        case 'w':
+          triangle.dy = -step;
+          break;
+        case 's':
+          triangle.dy = step;
+          break;
+        case 'a':
+          triangle.dx = -step;
+          break;
+        case 'd':
+          triangle.dx = step;
+          break;
       }
+    }
 
-      function handleKeyUp(event) {
-        switch (event.key) {
-          case 'ArrowUp':
-          case 'ArrowDown':
-            square.dy = 0;
-            break;
-          case 'ArrowLeft':
-          case 'ArrowRight':
-            square.dx = 0;
-            break;
-          case 'w':
-          case 's':
-            triangle.dy = 0;
-            break;
-          case 'a':
-          case 'd':
-            triangle.dx = 0;
-            break;
-        }
+    function handleKeyUp(event) {
+      switch (event.key) {
+        case 'ArrowUp':
+        case 'ArrowDown':
+          square.dy = 0;
+          break;
+        case 'ArrowLeft':
+        case 'ArrowRight':
+          square.dx = 0;
+          break;
+        case 'w':
+        case 's':
+          triangle.dy = 0;
+          break;
+        case 'a':
+        case 'd':
+          triangle.dx = 0;
+          break;
       }
-      window.addEventListener('keydown', handleKeyDown);
-      window.addEventListener('keyup', handleKeyUp);
-      spawnCoin();
-      update();
-    </script>
-  </body>
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Initially spawn a coin
+    spawnCoin();
+
+    update();
+  </script>
+</body>
 
 </html>
