@@ -17,18 +17,15 @@
       border: 2px solid black;
     }
   </style>
-  <var>rulesdone: false</var>
+
 </head>
 
 <body>
-  if{
-
-  }
   <canvas id="gameCanvas" width="800" height="600"></canvas>
   <script>
     const canvas = document.getElementById('gameCanvas');
     const context = canvas.getContext('2d');
-
+    let rulesdone = false
 
     let square = {
       x: 50,
@@ -59,29 +56,29 @@
     };
 
     function rules() {
-      context.fillStyle = '#000000';
-      context.font = '150px Arial';
-      context.fillText(`The Rules are simple:`, 400, 100);
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`The therapist uses 'J, K, L, and ;'. The freind uses 'A, S, D, and F'. When the coin shows up, race to get the coin!`, 400, 200)
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`To move the square, the following aplies;`, 400, 250)
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`Left is 'A', right is 'F', up is 'D', and down is 'S'.`, 400, 300)
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`To move the triangle, the following aplies;`, 400, 350)
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`Left is 'J', right is 'K', up is 'L', and down is ';'.`, 400, 400)
-      context.fillStyle = '#000000';
-      context.font = '20px Arial';
-      context.fillText(`Press space to dismiss.`, 400, 300)
-      // need to adjust keybinds accordingly...
-      //program in 'space to dismiss'
+      if (rulesdone == false) {
+        context.fillStyle = '#000000';
+        context.font = '150px Arial';
+        context.fillText(`The Rules are simple:`, 200, 100);
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`The square uses 'A, S, D, and F'. The triangle uses 'J, K, L, and ;'. When the coin shows up, race to get the coin!`, 400, 200)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`To move the square, the following aplies;`, 200, 250)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Left is 'A', right is 'F', up is 'D', and down is 'S'.`, 200, 300)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`To move the triangle, the following aplies;`, 200, 350)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Left is 'J', right is ';', up is 'K', and down is 'L'.`, 200, 400)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Press space to dismiss.`, 400, 300)
+      }
     }
 
     function drawSquare() {
@@ -190,28 +187,30 @@
       const step = 10;
       switch (event.key) {
         case 'space':
-        case 'ArrowUp':
-          square.dy = -step;
-          break;
-        case 'ArrowDown':
-          square.dy = step;
-          break;
-        case 'ArrowLeft':
-          square.dx = -step;
-          break;
-        case 'ArrowRight':
-          square.dx = step;
-          break;
-        case 'w':
-          triangle.dy = -step;
-          break;
-        case 's':
-          triangle.dy = step;
-          break;
-        case 'a':
-          triangle.dx = -step;
+          rulesdone = true
           break;
         case 'd':
+          square.dy = -step;
+          break;
+        case 's':
+          square.dy = step;
+          break;
+        case 'a':
+          square.dx = -step;
+          break;
+        case 'f':
+          square.dx = step;
+          break;
+        case 'k':
+          triangle.dy = -step;
+          break;
+        case 'l':
+          triangle.dy = step;
+          break;
+        case ';':
+          triangle.dx = -step;
+          break;
+        case 'j':
           triangle.dx = step;
           break;
       }
@@ -219,20 +218,23 @@
 
     function handleKeyUp(event) {
       switch (event.key) {
-        case 'ArrowUp':
-        case 'ArrowDown':
+        case 'space':
+          rulesdone = true
+          break;
+        case 's':
+        case 'd':
           square.dy = 0;
           break;
-        case 'ArrowLeft':
-        case 'ArrowRight':
+        case 'a':
+        case 'f':
           square.dx = 0;
           break;
-        case 'w':
-        case 's':
+        case 'k':
+        case 'l':
           triangle.dy = 0;
           break;
-        case 'a':
-        case 'd':
+        case 'j':
+        case ';':
           triangle.dx = 0;
           break;
       }
