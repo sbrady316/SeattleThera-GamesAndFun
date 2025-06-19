@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Chrome: simple-game.htm",
+            "name": "Run on Chrome",
             "type": "chrome",
             "request": "launch",
             "file": "${workspaceFolder}\\simple-game.htm"
         },
         {
-            "name": "Edge: simple-game.htm",
+            "name": "Run on Edge",
             "type": "msedge",
             "request": "launch",
             "file": "${workspaceFolder}\\simple-game.htm"
