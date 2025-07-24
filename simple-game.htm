@@ -15,18 +15,11 @@
     canvas {
       border: 1px solid black;
     }
-    button {
-      font-size: 20px;
-      padding: 10px;
-      margin-top: 20px;
-    }
   </style>
 </head>
 
 <body>
   <canvas id="gameCanvas" width="800" height="600"></canvas>
-  <button id="restartButton">Restart Game</button>
-
   <script>
     const canvas = document.getElementById('gameCanvas');
     const context = canvas.getContext('2d');
@@ -38,7 +31,7 @@
       color: '#FF0000',
       dx: 0,
       dy: 0,
-      score: 0,
+      score: 0
     };
 
     let triangle = {
@@ -48,7 +41,7 @@
       color: '#0000FF',
       dx: 0,
       dy: 0,
-      score: 0,
+      score: 0
     };
 
     let coin = {
@@ -60,65 +53,33 @@
     };
 
     let rulesdone = false; //sets the rules to not start dismissed
-    let win = false; //can't have a player winning at the beginning of the game! (also, i need to define the boolean).
-    let rulesOpacity = 1; // Start fully visible
-    let rulesSize = 30;   // Start with a large font size
 
-    function fadeOutRules() {
-      if (rulesOpacity > 0) {
-        rulesOpacity -= 0.02;
-        rulesSize -= 0.5;
-        requestAnimationFrame(fadeOutRules); // Smooth transition
-      } else {
-        rulesdone = true; // Mark rules as done
-        rulesOpacity = 0;
-        context.globalAlpha = 1; // Reset transparency for the rest of the game
-        context.clearRect(0, 0, canvas.width, canvas.height); // Ensure rules are fully erased
-        update(); // Ensure the game continues smoothly
-      }
-    }
-
-
-
-    function drawRules(size) {
-      if (!rulesdone) {
+    function rules() {
+      if (rulesdone == false) {
         context.fillStyle = '#000000';
-        context.globalAlpha = rulesOpacity;
-        context.font = `${size}px Arial`;
-        context.textAlign = "center";
-        context.fillText("The Rules are simple:", canvas.width / 2, 100);
-        context.fillText("Square uses A, S, D, F. Triangle uses J, K, L, ;.", canvas.width / 2, 150);
-        context.fillText("Race to get the coin!", canvas.width / 2, 200);
-        context.fillText("Press SPACE to start.", canvas.width / 2, 250);
-        context.globalAlpha = 1;  // Reset transparency for other game elements
+        context.font = '150px Arial';
+        context.fillText(`The Rules are simple:`, 400, 100);
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`The Triangle uses 'J, K, L, and ;'. The Square uses 'A, S, D, and F'. When the coin shows up, race to get the coin.`, 400, 200)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`To move the square, the following aplies;`, 400, 250)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Left is 'A', right is 'F', up is 'D', and down is 'S'.`, 400, 300)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`To move the triangle, the following aplies;`, 400, 350)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Left is 'J', right is ';', up is 'L', and down is 'K'.`, 400, 400)
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Press space to dismiss.`, 400, 300)
+        //program in 'space to dismiss'
       }
     }
-
-
-
-    function handleKeyDown(event) {
-      if (event.key === ' ') {
-        fadeOutRules(); // Start fading the rules when SPACE is pressed
-      }
-    }
-
-
-    function restartGame() {
-      win = false;
-      square.score = 0;
-      square.x = 50;
-      square.y = 50;
-      triangle.score = 0;
-      triangle.x = 200;
-      triangle.y = 200;
-      coin.active = false;
-      rulesdone = false; // Make sure rules appear again after reset
-      rulesOpacity = 1;  // Reset opacity so rules are visible
-      spawnCoin();
-      update(); // Restart the game loop
-    }
-
-    document.getElementById('restartButton').addEventListener('click', restartGame);
 
     function drawSquare() {
       context.fillStyle = square.color;
@@ -141,11 +102,9 @@
         context.beginPath();
         context.arc(coin.x, coin.y, coin.radius, 0, Math.PI * 2);
         context.fill();
-           // Ensure text is positioned correctly and centered
-    context.fillStyle = '#000000';
-    context.font = '20px Arial';
-    context.textAlign = "center";
-    context.fillText(`Get the Coin!!`, canvas.width / 2, 50);
+        context.fillStyle = '#000000';
+        context.font = '20px Arial';
+        context.fillText(`Get the Coin!!`, 10, 90);
       }
     }
 
@@ -174,7 +133,7 @@
       triangle.y += triangle.dy;
     }
 
-    function movePlayers() {
+    function moveAll() {
       moveSquare();
       moveTriangle();
     }
@@ -207,58 +166,30 @@
           setTimeout(spawnCoin, 2000); // Spawn a new coin after 2 seconds
         }
       }
-    }
-
-    function handleWin() {
-      if (triangle.score >= 100) {
+      if (triangle.score == 100) {
         context.fillStyle = '#000000';
-        context.font = '50px Arial'; // Reduce font size
-        context.textAlign = "center"; // Align text to center
-        context.fillText(`Triangle Wins!`, canvas.width / 2, canvas.height / 2);
-      }
-      if (square.score >= 100) {
+        context.font = '100px Arial';
+        context.fillText(`Triangle Wins!`, 400, 300);
+      } else if (square.score == 100) {
         context.fillStyle = '#000000';
-        context.font = '50px Arial'; // Reduce font size
-        context.textAlign = "center"; // Align text to center
-        context.fillText(`Square Wins!`, canvas.width / 2, canvas.height / 2);
-      }
-    }
-
-    function checkifWin() {
-      if (square.score >= 100 || triangle.score >= 100) {//check if a player has the required score to win
-        win = true;
+        context.font = '100px Arial';
+        context.fillText(`Square Wins!`, 400, 300);
       }
     }
 
     function update() {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (rulesOpacity > 0) {
-        drawRules(rulesSize);
-      } else {
-        rulesdone = true;
-      }
-
-      if (rulesdone && !win) {
-        movePlayers();
-        updateScores();
-        checkifWin();
-        draw();
-        requestAnimationFrame(update);
-      } else if (win) {
-        handleWin();
-      }
+      moveSquare();
+      moveTriangle();
+      updateScores();
+      draw();
+      requestAnimationFrame(update);
     }
-    
+
     function handleKeyDown(event) {
       const step = 10;
       switch (event.key) {
         case ' ':
-          if (!rulesdone) {
-            fadeOutRules(); // Start fading the rules when space is pressed
-          } else {
-            update(); // Start the game if rules are already gone
-          }
+          rulesdone = true;
           break;
         case 'd':
           square.dy = -step;
@@ -314,25 +245,10 @@
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    function gameStart() {
-      spawnCoin(); //initially spawn the coin
-    }
-    
-    function runifnoWin() {
-      if (win == false) {
-        update();
-      }
-      if (win == true) {
-        handleWin();
-      }
-    }
+    // Initially spawn a coin
+    spawnCoin();
 
-    function runAll() {
-      gameStart();
-      runifnoWin();
-    }
-
-    runAll();
+    update();
   </script>
 </body>
 
