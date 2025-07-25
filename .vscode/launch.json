@@ -4,17 +4,35 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        //Autism_talk
         {
-            "name": "Run on Chrome",
-            "type": "chrome",
+            "name": "Run Autism_talk on Chrome",
             "request": "launch",
-            "file": "${workspaceFolder}\\simple-game.htm"
+            "type": "chrome",
+            "file": "C:\\Users\\markk\\Code\\Autism Talk\\Autism_talk.html",
+            "webRoot": "${workspaceFolder}"
         },
         {
-            "name": "Run on Edge",
+            "name": "Run Autism_talk on Edge",
+            "request": "launch",
+            "type": "msedge",
+            "file": "C:\\Users\\markk\\Code\\Autism Talk\\Autism_talk.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        //simple-game.htm
+        {
+            "name": "Run simple game.htm on Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "file": "C:\\Users\\markk\\Code\\SeattleThera-GamesAndFun\\simple-game.htm",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Run simple game.htm on Edge",
             "type": "msedge",
             "request": "launch",
-            "file": "${workspaceFolder}\\simple-game.htm"
+            "file": "C:\\Users\\markk\\Code\\SeattleThera-GamesAndFun\\simple-game.htm",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

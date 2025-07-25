@@ -41,7 +41,7 @@
       color: '#0000FF',
       dx: 0,
       dy: 0,
-      score: 0
+      score: 90
     };
 
     let coin = {
@@ -53,6 +53,8 @@
     };
 
     let rulesdone = false; //sets the rules to not start dismissed
+
+    let win = false; //sets win to false
 
     function rules() {
       if (rulesdone == false) {
@@ -170,7 +172,8 @@
         context.fillStyle = '#000000';
         context.font = '100px Arial';
         context.fillText(`Triangle Wins!`, 400, 300);
-      } else if (square.score == 100) {
+      }
+      if (square.score == 100) {
         context.fillStyle = '#000000';
         context.font = '100px Arial';
         context.fillText(`Square Wins!`, 400, 300);
@@ -178,11 +181,13 @@
     }
 
     function update() {
-      moveSquare();
-      moveTriangle();
-      updateScores();
-      draw();
-      requestAnimationFrame(update);
+      if (!win) {
+        moveSquare();
+        moveTriangle();
+        updateScores();
+        draw();
+        requestAnimationFrame(update);
+      }
     }
 
     function handleKeyDown(event) {
