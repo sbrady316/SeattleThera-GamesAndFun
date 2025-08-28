@@ -59,27 +59,29 @@
     function rules() {
       if (rulesdone == false) {
         context.fillStyle = '#000000';
-        context.font = '150px Arial';
-        context.fillText(`The Rules are simple:`, 400, 100);
+        context.font = '50px Arial';
+        context.fillText(`The Rules are simple:`, 50, 100);
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`The Triangle uses 'J, K, L, and ;'. The Square uses 'A, S, D, and F'. When the coin shows up, race to get the coin.`, 400, 200)
+        context.fillText(`The Triangle uses ' J, K, L, and ;'. The Square uses ' A, S, D, and F '.`, 50, 200)
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`To move the square, the following aplies;`, 400, 250)
+        context.fillText(`When the coin shows up, race to get the coin.`, 50, 225)
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`Left is 'A', right is 'F', up is 'D', and down is 'S'.`, 400, 300)
+        context.fillText(`To move the square, the following aplies;`, 50, 275)
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`To move the triangle, the following aplies;`, 400, 350)
+        context.fillText(`Left is ' A ', right is ' F ', up is ' D ', and down is ' S '.`, 50, 325)
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`Left is 'J', right is ';', up is 'L', and down is 'K'.`, 400, 400)
+        context.fillText(`To move the triangle, the following aplies;`, 50, 375)
         context.fillStyle = '#000000';
         context.font = '20px Arial';
-        context.fillText(`Press space to dismiss.`, 400, 300)
-        //program in 'space to dismiss'
+        context.fillText(`Left is ' J ', right is ' ; ', up is ' L ', and down is ' K '.`, 50, 425)
+        context.fillStyle = '#808080';
+        context.font = '20px Arial';
+        context.fillText(`Press space to dismiss.`, 375, 500)
       }
     }
 
@@ -118,11 +120,16 @@
     }
 
     function draw() {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      drawSquare();
-      drawTriangle();
-      drawCoin();
-      drawScores();
+      if (!rulesdone){
+        rules();
+      }
+      else{
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawSquare();
+        drawTriangle();
+        drawCoin();
+        drawScores();
+      }
     }
 
     function moveSquare() {
@@ -168,15 +175,19 @@
           setTimeout(spawnCoin, 2000); // Spawn a new coin after 2 seconds
         }
       }
-      if (triangle.score == 100) {
-        context.fillStyle = '#000000';
-        context.font = '100px Arial';
-        context.fillText(`Triangle Wins!`, 400, 300);
-      }
-      if (square.score == 100) {
-        context.fillStyle = '#000000';
-        context.font = '100px Arial';
-        context.fillText(`Square Wins!`, 400, 300);
+    }
+
+    function checkWin() {
+      if (square.score >= 100) {
+        win = true;
+        context.fillStyle = '#00AA00';
+        context.font = '48px Arial';
+        context.fillText('Square Wins!', canvas.width / 2 - 150, canvas.height / 2);
+      } else if (triangle.score >= 100) {
+        win = true;
+        context.fillStyle = '#0000AA';
+        context.font = '48px Arial';
+        context.fillText('Triangle Wins!', canvas.width / 2 - 170, canvas.height / 2);
       }
     }
 
@@ -186,6 +197,7 @@
         moveTriangle();
         updateScores();
         draw();
+        checkWin();
         requestAnimationFrame(update);
       }
     }
