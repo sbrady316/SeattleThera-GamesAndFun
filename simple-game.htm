@@ -20,8 +20,53 @@
 
 <body>
   <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <button id="restartBtn" style="display:none; position:absolute; left:50%; top:70%; transform:translate(-50%, -50%); font-size:24px;">Restart</button>
   <script>
     const canvas = document.getElementById('gameCanvas');
+    
+    const restartBtn = document.getElementById('restartBtn');
+    
+    function resetGame() {
+      // Reset scores and positions
+      square.x = 50;
+      square.y = 50;
+      square.dx = 0;
+      square.dy = 0;
+      square.score = 0;
+    
+      triangle.x = 200;
+      triangle.y = 200;
+      triangle.dx = 0;
+      triangle.dy = 0;
+      triangle.score = 0;
+    
+      win = false;
+      rulesdone = false;
+      spawnCoin();
+      restartBtn.style.display = 'none';
+      update();
+    }
+    
+    // Show the button when someone wins
+    function checkWin() {
+      if (square.score >= 100) {
+        win = true;
+        context.fillStyle = '#00AA00';
+        context.font = '48px Arial';
+        context.fillText('Square Wins!', canvas.width / 2 - 150, canvas.height / 2);
+        restartBtn.style.display = 'block';
+      } else if (triangle.score >= 100) {
+        win = true;
+        context.fillStyle = '#0000AA';
+        context.font = '48px Arial';
+        context.fillText('Triangle Wins!', canvas.width / 2 - 170, canvas.height / 2);
+        restartBtn.style.display = 'block';
+      }
+    }
+    
+    restartBtn.addEventListener('click', resetGame);
+    
+    document.getElementById('gameCanvas');
     const context = canvas.getContext('2d');
 
     let square = {
@@ -41,7 +86,7 @@
       color: '#0000FF',
       dx: 0,
       dy: 0,
-      score: 90
+      score: 0
     };
 
     let coin = {
